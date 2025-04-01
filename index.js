@@ -63,8 +63,18 @@ app.get("/organization/signup", async (req, res) => {
 });
 
 app.get("/organization/task", isOrganization, async (req, res) => {
-  console.log(req);
-  res.render("organization-task");
+    try {
+        const tasks = await prisma.task.findMany({
+            where: {
+                orgId: req.organizationId
+            }
+        });
+
+        res.render('organization-task', { tasks });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 app.get("/organization/task/create", isOrganization, async (req, res) => {
@@ -438,8 +448,36 @@ app.get('/volunteer/task', isVolunteer, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
-app.post('/volunteer/task', isVolunteer, async (req, res) => {
 
-})
+
+app.get('/volunteer/:volunteerId', async (req, res) => {
+    const id = req.params.volunteerId;
+
+    const volunteer = await prisma.volunteer.findUnique({
+        where: {
+          id: parseInt(id) // Replace volunteerId with the actual ID you want to search for
+        }
+    });
+
+    if(!volunteer)
+        res.status(500).json({error: 'no such user'})
+
+    res.render('volunteer', {volunteer})
+});
+
+app.get('/organization/:organizationId', async (req, res) => {
+    const id = req.params.organizationId;
+
+    const organization = await prisma.organization.findUnique({
+        where: {
+          id: parseInt(id) // Replace volunteerId with the actual ID you want to search for
+        }
+    });
+
+    if(!organization)
+        res.status(500).json({error: 'no such user'})
+
+    res.render('organization', {organization});
+});
 
 app.listen(3000);
