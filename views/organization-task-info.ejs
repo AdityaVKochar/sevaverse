@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Information</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Information</h1>
+        <div class="task-details">
+            <p><strong>Title:</strong> <%= task.title %></p>
+            <p><strong>Description:</strong> <%= task.description %></p>
+            <p><strong>Location:</strong> <%= task.location %></p>
+            <p><strong>Start Time:</strong> <%= new Date(task.fromTime).toLocaleString() %></p>
+            <p><strong>End Time:</strong> <%= new Date(task.toTime).toLocaleString() %></p>
+            <p><strong>Volunteers Needed:</strong> <%= task.size %></p>
+        </div>
+        <p><a href="/organization/task">Back to Task List</a></p>
+    </div>
+</body>
+</html>

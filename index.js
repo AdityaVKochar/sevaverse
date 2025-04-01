@@ -25,13 +25,34 @@ function isOrganization(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_ORG);
     req.organizationId = decoded.id; // Attach organization ID to the request object
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     res.redirect("/organization/signin");
   }
 }
+
+function isVolunteer(req, res, next) {
+    const token = req.cookies.authToken;
+
+    if (!token) {
+        res.redirect("/volunteer/signin");
+        return;
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_VOL);
+        req.volunteerId = decoded.id; // Attach volunteer ID to the request object
+        next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+        res.redirect("/volunteer/signin");
+    }
+}
+
+app.post('/logout', async(req, res) => {
+    res.clearCookie('authToken');
+})
 
 app.get("/organization/signin", async (req, res) => {
   res.render("organization-signin");
@@ -45,11 +66,89 @@ app.get("/organization/task", isOrganization, async (req, res) => {
   console.log(req);
   res.render("organization-task");
 });
+
+app.get("/organization/task/create", isOrganization, async (req, res) => {
+    res.render("organization-create-task");
+});
+
+app.get("/organization/task/:taskId", isOrganization, async (req, res) => {
+    const { taskId } = req.params;
+
+    try {
+        // Fetch the task from the database
+        const task = await prisma.task.findUnique({
+            where: { id: parseInt(taskId, 10) },
+            include: { organization: true },
+        });
+
+        // Check if the task exists
+        if (!task) {
+            return res.status(404).send("Task not found");
+        }
+
+        // Verify that the organization accessing the task is the owner
+        if (task.orgId !== req.organizationId) {
+            return res.status(403).send("Unauthorized access");
+        }
+
+        // Pass the task information to the page
+        res.render("organization-task-info", { task });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+});
+
 app.get("/volunteer/signup", async (req, res) => {
   res.render("volunteer-signup");
 });
+
 app.get("/volunteer/signin", async (req, res) => {
   res.render("volunteer-signin");
+});
+
+app.get("/volunteer/dashboard", isVolunteer, async (req, res) => {
+    try {
+      const currentDate = new Date();
+  
+      const tasks = await prisma.task.findMany({
+        where: {
+          fromTime: { gte: currentDate },
+        },
+        include: { organization: true },
+      });
+  
+      console.log("Fetched tasks:", tasks); // Debugging
+  
+      res.render("volunteer-dashboard", { tasks });
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+});
+  
+app.get("/volunteer/task/:id", async (req, res) => {
+const { id } = req.params;
+
+try {
+    // Fetch task details by ID
+    const task = await prisma.task.findUnique({
+    where: { id: parseInt(id, 10) },
+    include: {
+        organization: true, // Include organization details
+    },
+    });
+
+    if (!task) {
+    return res.status(404).send("Task not found");
+    }
+
+    // Render the task details page
+    res.render("volunteer-task", { task });
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 app.post("/organization/signup", async (req, res) => {
@@ -127,7 +226,7 @@ app.post("/organization/signin", async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ id: organization.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: organization.id }, process.env.JWT_ORG, {
       expiresIn: "1h",
     });
 
@@ -220,9 +319,8 @@ app.post("/volunteer/signin", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
-
     // Generate a JWT token
-    const token = jwt.sign({ id: volunteer.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: volunteer.id }, process.env.JWT_VOL, {
       expiresIn: "1h",
     });
 
@@ -239,4 +337,87 @@ app.post("/volunteer/signin", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+app.post('/volunteer/task/:taskId/register', isVolunteer, async (req, res) => {
+    const { taskId } = req.params;
+
+    try {
+        // Fetch the task
+        const task = await prisma.task.findUnique({
+            where: { id: parseInt(taskId, 10) },
+        });
+
+        if (!task) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        if (task.size <= 0) {
+            return res.status(400).json({ error: "No slots available for this task" });
+        }
+
+        // Register the volunteer to the task
+        // Add the volunteer to the task's volunteers relation
+        await prisma.task.update({
+            where: { id: task.id },
+            data: {
+            volunteers: {
+                connect: { id: req.volunteerId },
+            },
+            },
+        });
+
+        // Decrease the size by 1
+        await prisma.task.update({
+            where: { id: task.id },
+            data: { size: task.size - 1 },
+        });
+
+        res.redirect('/volunteer/dashboard'); // Redirect to the volunteer dashboard
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+app.post('/organization/task/create', isOrganization, async (req, res) => {
+    const { title, description, location, fromTime, toTime, size } = req.body;
+
+    try {
+        // Validate input fields
+        if (!title || !description || !location || !fromTime || !toTime || !size) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        if (isNaN(size) || size <= 0) {
+            return res.status(400).json({ error: "Size must be a positive number" });
+        }
+
+        // Ensure the organization is authenticated
+        const orgId = req.organizationId;
+
+        if (!orgId) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        // Create the task
+        const newTask = await prisma.task.create({
+            data: {
+                title,
+                description,
+                location,
+                fromTime: new Date(fromTime),
+                toTime: new Date(toTime),
+                size: parseInt(size, 10),
+                orgId,
+            },
+        });
+
+        res.redirect("/organization/task"); // Redirect to the organization's task page
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+
+});
+
 app.listen(3000);
