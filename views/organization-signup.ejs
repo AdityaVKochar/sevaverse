@@ -1,34 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGO Signup</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NGO Registration</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #f03232;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: white;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        width: 1520px;
+        height: 800px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .image-section {
+        flex: 1;
+        height: 100%;
+      }
+
+      .image-section img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .form-section {
+        flex: 1;
+        padding: 40px;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+      }
+
+      label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+        font-size: 16px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      button {
+        width: 100%;
+        background-color: red;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-weight: 500;
+      }
+
+      button:hover {
+        background-color: darkred;
+      }
+
+      p {
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      a {
+        color: blue;
+        text-decoration: none;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
     <div class="container">
-        <h1>NGO Signup</h1>
+      <div class="image-section">
+        <img src="ngosignup.png" alt="NGO Assistance" />
+      </div>
+      <div class="form-section">
+        <h1>NGO REGISTRATION</h1>
+        <br />
         <form action="/organization/signup" method="POST">
-            <div class="form-group">
-                <label for="name">Organization Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="mobileNo">Mobile Number:</label>
-                <input type="text" id="mobileNo" name="mobileNo" required>
-            </div>
-            <div class="form-group">
-                <label for="emailId">Email Address:</label>
-                <input type="email" id="emailId" name="emailId" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Signup</button>
+          <div class="form-group">
+            <label for="orgName">Organization Name:</label>
+            <input
+              type="text"
+              id="orgName"
+              name="organizationName"
+              placeholder="Enter Organization Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="mobile">Mobile Number:</label>
+            <input
+              type="tel"
+              id="mobile"
+              name="mobileNumber"
+              placeholder="Enter Mobile Number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email ID:</label>
+            <input
+              type="email"
+              id="email"
+              name="emailId"
+              placeholder="Enter Email ID"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter Password"
+              required
+            />
+          </div>
+          <br />
+          <button type="submit">SIGN UP</button>
         </form>
-        <p>Already have an account? <a href="/organization/signin">Sign in here</a></p>
+        <p>
+          Already have an account? <a href="/organization/signin">Login in</a>
+        </p>
+      </div>
     </div>
-</body>
+  </body>
 </html>
