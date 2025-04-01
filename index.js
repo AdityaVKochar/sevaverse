@@ -17,12 +17,33 @@ app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.get('/organization/signin', (req, res) => {
-    res.render('ngo-signin');
+function isOrganization(req, res, next) {
+    const token = req.cookies.authToken;
+
+    if (!token) {
+        res.redirect('/organization/signin');
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.organizationId = decoded.id; // Attach organization ID to the request object
+        next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+        res.redirect('/organization/signin');
+    }
+}
+
+app.get('/organization/signin', async (req, res) => {
+    res.render('organization-signin');
 });
 
-app.get('/organization/signup', (req, res) => {
-    res.render('ngo-signup');
+app.get('/organization/signup', async (req, res) => {
+    res.render('organization-signup');
+});
+
+app.get('/organization/task', isOrganization, async (req, res) => {
+    console.log(req);
+    res.render('organization-task');
 });
 
 app.post('/organization/signup', async (req, res) => {
@@ -72,6 +93,39 @@ app.post('/organization/signup', async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
-})
+});
+
+app.post('/organization/signin', async (req, res) => {
+    const { emailId, password } = req.body;
+
+    try {
+        // Check if the organization exists
+        const organization = await prisma.organization.findUnique({
+            where: { emailId }
+        });
+
+        if (!organization) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Compare the password
+        const isPasswordValid = await bcrypt.compare(password, organization.password);
+
+        if (!isPasswordValid) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ id: organization.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Store the token in a cookie
+        res.cookie('authToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+        res.redirect('/organization/task');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 app.listen(3000);
