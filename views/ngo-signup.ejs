@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Signup</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>NGO Signup</h1>
+        <form action="/organization/signup" method="POST">
+            <div class="form-group">
+                <label for="name">Organization Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNo">Mobile Number:</label>
+                <input type="text" id="mobileNo" name="mobileNo" required>
+            </div>
+            <div class="form-group">
+                <label for="emailId">Email Address:</label>
+                <input type="email" id="emailId" name="emailId" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Signup</button>
+        </form>
+        <p>Already have an account? <a href="/organization/signin">Sign in here</a></p>
+    </div>
+</body>
+</html>
