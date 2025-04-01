@@ -331,7 +331,7 @@ app.post("/volunteer/signin", async (req, res) => {
     });
 
     // Redirect to a volunteer dashboard or task page
-    res.redirect("/volunteer/tasks");
+    res.redirect("/volunteer/dashboard");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -419,5 +419,27 @@ app.post('/organization/task/create', isOrganization, async (req, res) => {
     }
 
 });
+
+app.get('/volunteer/task', isVolunteer, async (req, res) => {
+    try {
+        // Fetch tasks the volunteer has registered for
+        const tasks = await prisma.task.findMany({
+            where: {
+                volunteers: {
+                    some: { id: req.volunteerId },
+                },
+            },
+            include: { organization: true },
+        });
+
+        res.render('volunteer-tasks', { tasks });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+app.post('/volunteer/task', isVolunteer, async (req, res) => {
+
+})
 
 app.listen(3000);
