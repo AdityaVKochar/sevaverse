@@ -467,7 +467,7 @@ app.get('/volunteer/:volunteerId', async (req, res) => {
     if(!volunteer)
         res.status(500).json({error: 'no such user'})
 
-    res.render('volunteer', {volunteer})
+    res.render('volunteer', {volunteer});
 });
 
 app.get('/organization/:organizationId', async (req, res) => {
