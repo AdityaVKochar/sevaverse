@@ -9,7 +9,7 @@ require("dotenv").config();
 
 const app = express();
 const prisma = new PrismaClient();
-app.use(express.static("public"));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
