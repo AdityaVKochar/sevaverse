@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function isOrganization(req, res, next) {
   const token = req.cookies.authToken;
@@ -49,6 +50,10 @@ function isVolunteer(req, res, next) {
         res.redirect("/volunteer/signin");
     }
 }
+
+app.get('/', async (req, res) => {
+    res.render('landingpage.ejs');
+})
 
 app.post('/logout', async(req, res) => {
     res.clearCookie('authToken');

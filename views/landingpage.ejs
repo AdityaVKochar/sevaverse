@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <style>
+        body {
+            background-image: url('images/landingpage_bg.png'); /* Replace with the actual path to your image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Optional: Keeps background fixed during scrolling */
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures the body takes up at least the full viewport height */
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            /* Add styles for your logo here */
+        }
+        .logo h1 {
+            font-family: 'Poppins';
+            color: #ff001a;
+        }
+
+        .tagline p {
+            font-family: 'Lora';
+            font-size: 60px;
+            color: #FFFFFF;
+            margin: 10px;
+        }
+
+        p {
+            font-family: 'Lora';
+            font-size: 30px;
+            color: #FFFFFF;
+            margin-top: 35px;
+        }
+
+        .content {
+            text-align: center;
+            margin: auto; /* Centers the content vertically and horizontally */
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between buttons */
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            background: #ff001a;
+            color: #FFFFFF;
+            font-family: 'Lora';
+            /* Add styles for your buttons here */
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="images/logo.png" alt="Company Logo" width="73" height="73"> 
+        <h1>Sevaverse</h1>
+    </div>
+    <div class="content">
+        <div class="tagline">
+            <p>Connecting Hearts</p>
+            <p>Empowering communities</p>
+        </div>
+        <p>Join us in making an impact today</p>
+        <div class="buttons">
+            <a href="/organization/signup"><button class="button">Sign up as a NGO</button></a>
+            <a href="/volunteer/signup"><button class="button">Sign up as a Volunteer</button></a>
+        </div>
+    </div>
+</body>
+</html>
