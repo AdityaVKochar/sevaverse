@@ -97,6 +97,10 @@
             text-align: center;
             cursor: pointer;
         }
+        .tocenter {
+            text-align: center;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -112,9 +116,9 @@
         <a href="/volunteer/task">My Tasks</a>
         <a href="/logout">Logout</a>
     </div>
-    
+    <div class="tocenter">
     <h2>Tasks Now</h2>
-    
+    </div>
     <div class="task-list" id="task-list">
       <% tasks.forEach(task => { %>
           <% if (new Date(task.toTime) > new Date() && task.size > 0) { %>
@@ -132,9 +136,9 @@
           <% } %>
       <% }) %>
   </div>
-
+  <div class="tocenter">
   <h2>Previous Tasks</h2>
-    
+    </div>
     <div class="task-list" id="task-list">
       <% tasks.forEach(task => { %>
           <% if (new Date(task.toTime) < new Date() && task.size > 0) { %>
