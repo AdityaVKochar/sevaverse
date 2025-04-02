@@ -1,159 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NGO Information - SevaVerse</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <title>Navbar with Sidebar and Search</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-
-      body {
-        background-color: #ffffff;
-      }
-
-      .header {
-        background-color: #ff3333;
-        color: white;
-        padding: 15px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .menu-button {
-        background: none;
-        border: none;
-        font-size: 30px;
-        cursor: pointer;
-        color: black;
-      }
-
-      .logo-container {
-        display: flex;
-        align-items: center;
-      }
-
-      .logo {
-        /* width: 40px; */
-        height: 40px;
-        margin-right: 10px;
-      }
-
-      .brand-name {
-        font-size: 28px;
-        font-weight: bold;
-      }
-
-      .profile-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 40px 20px;
-      }
-
-      .ngo-logo {
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        margin-bottom: 20px;
-      }
-
-      .info-section {
-        width: 100%;
-        max-width: 800px;
-        text-align: center;
-      }
-
-      .info-title {
-        color: #000;
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
-
-      .form-group {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-bottom: 20px;
-      }
-
-      .form-field {
-        flex-basis: 48%;
-        margin-bottom: 15px;
-        text-align: left;
-      }
-
-      .form-label {
-        display: block;
-        font-size: 16px;
-        margin-bottom: 5px;
-      }
-
-      .form-input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-
-      .objective-text {
-        margin-top: 10px;
-        line-height: 1.6;
-      }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fb2f2f;
+            padding: 20px;
+            color: white;
+        }
+        .menu-btn, .profile-btn {
+            cursor: pointer;
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            background-color: #111;
+            padding-top: 60px;
+            transition: 0.3s;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 25px;
+            cursor: pointer;
+            color: white;
+        }
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-bar {
+            padding: 10px;
+            width: 700px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .task-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .task-list p {
+          font-family: 'Lora';
+        }
+        .task-card {
+            background: white;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            font-family: 'Poppins';
+            border-style: solid;
+            border-color: #111;
+            border-width: 3px;
+        }
+        .task-header {
+            background: #b71c1c;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .task-content {
+            padding: 15px;
+            text-align: left;
+        }
+        .task-footer {
+            background: #b71c1c;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
     </style>
-  </head>
-  <body>
-    <div class="header">
-      <button class="menu-button">≡</button>
-      <div class="logo-container">
-        <img src="/images/logo2.png" alt="SevaVerse Logo" class="logo" />
-        <span class="brand-name"></span>
-      </div>
-      <button class="profile-button">🔵</button>
+</head>
+<body>
+    <div class="navbar">
+        <span class="menu-btn" onclick="openSidebar()" style="font-size: 30px; color: black">☰</span>
+        <img src="/images/full_logo_black.png" width="267" height="61">
+        <img src="/images/profile.png" width="35" height="35">
     </div>
-
-    <div class="container">
-      <h1 class="info-title">Your Tasks</h1>
-      <div class="text-end mb-4">
-        <a href="/organization/task/create" class="btn btn-success"
-          >Create New Task</a
-        >
-      </div>
-      <div class="task-list">
-        <% if (tasks.length > 0) { %> <% tasks.forEach(task => { %>
-        <div class="task-item">
-          <h3><%= task.title %></h3>
-          <p><strong>Description:</strong> <%= task.description %></p>
-          <p><strong>Location:</strong> <%= task.location %></p>
-          <p>
-            <strong>Start Time:</strong> <%= new
-            Date(task.fromTime).toLocaleString() %>
-          </p>
-          <p>
-            <strong>End Time:</strong> <%= new
-            Date(task.toTime).toLocaleString() %>
-          </p>
-          <p><strong>Volunteers Needed:</strong> <%= task.size %></p>
-          <a href="/organization/task/<%= task.id %>" class="btn btn-primary"
-            >View Details</a
-          >
-        </div>
-        <% }); %> <% } else { %>
-        <p>No tasks available.</p>
-        <% } %>
-      </div>
+    
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="closeSidebar()">&times;</span>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
     </div>
-  </body>
+    
+    <div class="search-container">
+        <input type="text" id="search" class="search-bar" placeholder="Search tasks..." onkeyup="filterTasks()">
+    </div>
+    
+    <div class="task-list" id="task-list">
+      <% tasks.forEach(task => { %>
+          <% if (new Date(task.fromTime) > new Date() && task.size > 0) { %>
+              <div class="task-card" data-title="<%= task.title.toLowerCase() %>">
+                  <div class="task-header">TASK TITLE</div>
+                  <div class="task-content">
+                      <p><%= task.description %></p>
+                      
+                      <p>From Date and Time:</strong> <%= new Date(task.fromTime).toLocaleString() %></p>
+                      <p>To Date and Time:</strong> <%= new Date(task.toTime).toLocaleString() %></p>
+                      <p>Location:</strong> <%= task.location %></p>
+                      <p>Team Size:</strong> <%= task.size %> members</p>
+                  </div>
+                  <div class="task-footer"><a href="/organization/task/<%=  task.id %>">Get more info →</a></div>
+              </div>
+          <% } %>
+      <% }) %>
+  </div>
+    
+    <script>
+        function openSidebar() {
+            document.getElementById("sidebar").style.left = "0";
+        }
+        function closeSidebar() {
+            document.getElementById("sidebar").style.left = "-250px";
+        }
+        function filterTasks() {
+            let searchInput = document.getElementById("search").value.toLowerCase();
+            let tasks = document.querySelectorAll(".task-item");
+            tasks.forEach(task => {
+                let title = task.getAttribute("data-title");
+                if (title.includes(searchInput)) {
+                    task.style.display = "block";
+                } else {
+                    task.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
 </html>
