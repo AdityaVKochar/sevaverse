@@ -96,6 +96,24 @@
       .btn-back:hover {
         background-color: #a61b1b;
       }
+      .volunteer-list {
+        margin-top: 20px;
+      }
+      .volunteer-list h2 {
+        color: #b71c1c;
+        margin-bottom: 10px;
+      }
+      .volunteer-list ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .volunteer-list li {
+        background: #f8f9fa;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
     </style>
   </head>
   <body>
@@ -133,6 +151,24 @@
         </p>
         <p><strong>Volunteers Needed:</strong> <%= task.size %></p>
       </div>
+
+      <div class="volunteer-list">
+        <h2>Registered Volunteers</h2>
+        <% if (volunteers.length > 0) { %>
+        <ul>
+          <% volunteers.forEach(volunteer => { %>
+          <li>
+            <strong>Name:</strong> <%= volunteer.name %> |
+            <strong>Email:</strong> <%= volunteer.emailId %> |
+            <strong>Mobile:</strong> <%= volunteer.mobileNo %>
+          </li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        <p>No volunteers have registered for this task yet.</p>
+        <% } %>
+      </div>
+
       <a href="/organization/task" class="btn-back">← Back to Tasks</a>
     </div>
 

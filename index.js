@@ -94,7 +94,7 @@ app.get("/organization/task/:taskId", isOrganization, async (req, res) => {
     // Fetch the task from the database
     const task = await prisma.task.findUnique({
       where: { id: parseInt(taskId, 10) },
-      include: { organization: true },
+      include: { organization: true, volunteers: true }, // Include volunteers
     });
 
     // Check if the task exists
@@ -107,8 +107,8 @@ app.get("/organization/task/:taskId", isOrganization, async (req, res) => {
       return res.status(403).send("Unauthorized access");
     }
 
-    // Pass the task information to the page
-    res.render("organization-task-info", { task });
+    // Pass the task and volunteers information to the page
+    res.render("organization-task-info", { task, volunteers: task.volunteers });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
