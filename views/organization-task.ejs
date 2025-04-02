@@ -154,12 +154,38 @@
           <% } %>
       <% }) %>
   </div> -->
-
+    <h2>Current Tasks</h2>
     <div class="task-list" id="task-list">
-      <% tasks.forEach(task => { %> <% if (new Date(task.fromTime) > new Date()
+      <% tasks.forEach(task => { %> <% if (new Date(task.toTime) > new Date()
       && task.size > 0) { %>
       <div class="task-card" data-title="<%= task.title.toLowerCase() %>">
-        <div class="task-header"><strong>TASK TITLE</strong></div>
+        <div class="task-header"><strong><%= task.title%></strong></div>
+        <div class="task-content">
+          <p><%= task.description %></p>
+          <p>
+            <strong>From Date and Time:</strong> <%= new
+            Date(task.fromTime).toLocaleString() %>
+          </p>
+          <p>
+            <strong>To Date and Time:</strong> <%= new
+            Date(task.toTime).toLocaleString() %>
+          </p>
+          <p><strong>Location:</strong> <%= task.location %></p>
+          <p><strong>Team Size:</strong> <%= task.size %> members</p>
+        </div>
+        <div class="task-footer">
+          <a href="/organization/task/<%= task.id %>">Get more info →</a>
+        </div>
+      </div>
+      <% } %> <% }) %>
+    </div>
+
+    <h2>Previous Tasks</h2>
+    <div class="task-list" id="task-list">
+      <% tasks.forEach(task => { %> <% if (new Date(task.toTime) <= new Date()
+      && task.size > 0) { %>
+      <div class="task-card" data-title="<%= task.title.toLowerCase() %>">
+        <div class="task-header"><strong><%= task.title%></strong></div>
         <div class="task-content">
           <p><%= task.description %></p>
           <p>
