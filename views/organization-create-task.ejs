@@ -1,42 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Task</title>
-    <link rel="stylesheet" href="/styles/main.css">
-</head>
-<body>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: url("/images/createtask.png") no-repeat center center/cover;
+        color: white;
+      }
+      .header {
+        background: red;
+        padding: 15px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+      }
+      h1 {
+        color: red;
+        font-size: 36px;
+      }
+      .form-group {
+        margin: 10px 0;
+      }
+      label {
+        display: block;
+        font-size: 18px;
+        text-align: left;
+      }
+      input,
+      textarea {
+        width: 300px;
+        padding: 10px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: transparent;
+        color: white;
+        font-size: 16px;
+      }
+      .btn {
+        background: red;
+        color: white;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">SevaVerse</div>
     <div class="container">
-        <h1>Create a New Task</h1>
-        <form action="/organization/task/create" method="POST">
-            <div class="form-group">
-                <label for="title">Task Title:</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Task Description:</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" required>
-            </div>
-            <div class="form-group">
-                <label for="fromTime">Start Time:</label>
-                <input type="datetime-local" id="fromTime" name="fromTime" required>
-            </div>
-            <div class="form-group">
-                <label for="toTime">End Time:</label>
-                <input type="datetime-local" id="toTime" name="toTime" required>
-            </div>
-            <div class="form-group">
-                <label for="size">Number of Volunteers Needed:</label>
-                <input type="number" id="size" name="size" min="1" required>
-            </div>
-            <button type="submit">Create Task</button>
-        </form>
-        <p><a href="/organization/task">Back to Task List</a></p>
+      <h1>CREATE A NEW TASK!</h1>
+      <form action="/organization/task/create" method="POST">
+        <div class="form-group">
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter the Task Title"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            name="location"
+            placeholder="Enter the Location"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <textarea
+            name="description"
+            rows="3"
+            placeholder="Enter the Task Description"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <input
+            type="date"
+            name="fromDate"
+            placeholder="DD/MM/YYYY"
+            required
+          />
+          <input type="date" name="toDate" placeholder="DD/MM/YYYY" required />
+        </div>
+        <div class="form-group">
+          <input
+            type="time"
+            name="fromTime"
+            placeholder="HH/MM/SSSS"
+            required
+          />
+          <input type="time" name="toTime" placeholder="HH/MM/SSSS" required />
+        </div>
+        <div class="form-group">
+          <input
+            type="number"
+            name="size"
+            placeholder="Enter the Number of Volunteers Required"
+            min="1"
+            required
+          />
+        </div>
+        <button class="btn" type="submit">ADD TASK</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
