@@ -30,6 +30,33 @@
       .profile-btn {
         cursor: pointer;
       }
+      .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: -250px;
+        background-color: #111;
+        padding-top: 60px;
+        transition: 0.3s;
+      }
+      .sidebar a {
+        padding: 10px 15px;
+        display: block;
+        color: white;
+        text-decoration: none;
+      }
+      .sidebar a:hover {
+        background-color: #575757;
+      }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 25px;
+        cursor: pointer;
+        color: white;
+      }
       .container {
         max-width: 800px;
         margin: 50px auto;
@@ -99,27 +126,45 @@
       <img src="/images/profile.png" width="35" height="35" />
     </div>
 
+    <div class="sidebar" id="sidebar">
+      <span class="close-btn" onclick="closeSidebar()">&times;</span>
+      <a href="/volunteer/dashboard">Dashboard</a>
+      <a href="/volunteer/task">My Tasks</a>
+      <a href="/logout">Logout</a>
+    </div>
+
     <div class="container">
-      <h1>Task Details</h1>
+      <h1><%= task.title %></h1>
       <div class="task-details">
-        <p><strong>Title:</strong> <%= task.title %></p>
-        <p><strong>Description:</strong> <%= task.description %></p>
         <p><strong>Location:</strong> <%= task.location %></p>
+        <p><strong>Description:</strong> <%= task.description %></p>
         <p>
-          <strong>Start Time:</strong> <%= new
-          Date(task.fromTime).toLocaleString() %>
+          <strong>From:</strong> <%= new Date(task.fromTime).toLocaleString() %>
         </p>
         <p>
-          <strong>End Time:</strong> <%= new Date(task.toTime).toLocaleString()
-          %>
+          <strong>To:</strong> <%= new Date(task.toTime).toLocaleString() %>
         </p>
-        <p><strong>Volunteers Needed:</strong> <%= task.size %></p>
+        <p><strong>Size:</strong> <%= task.size %> volunteers</p>
         <p><strong>Organization:</strong> <%= task.organization.name %></p>
+        <p><strong>Contact:</strong> <%= task.organization.emailId %></p>
       </div>
-      <a href="/volunteer/task/<%= task.id %>/register" class="btn-register"
-        >Register for Task</a
+      <form
+        action="/volunteer/task/<%= task.id %>/register"
+        method="POST"
+        style="text-align: center"
       >
+        <button type="submit" class="btn-register">Register for Task</button>
+      </form>
       <a href="/volunteer/dashboard" class="btn-back">← Back to Dashboard</a>
     </div>
+
+    <script>
+      function openSidebar() {
+        document.getElementById("sidebar").style.left = "0";
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").style.left = "-250px";
+      }
+    </script>
   </body>
 </html>
