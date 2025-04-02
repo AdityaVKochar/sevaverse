@@ -1,162 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <title>Navbar with Sidebar and Search</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <title>Task Details - SevaVerse</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fb2f2f;
-            padding: 20px;
-            color: white;
-        }
-        .menu-btn, .profile-btn {
-            cursor: pointer;
-        }
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: -250px;
-            background-color: #111;
-            padding-top: 60px;
-            transition: 0.3s;
-        }
-        .sidebar a {
-            padding: 10px 15px;
-            display: block;
-            color: white;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #575757;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 25px;
-            cursor: pointer;
-            color: white;
-        }
-        .search-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .search-bar {
-            padding: 10px;
-            width: 700px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .task-list {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-        }
-        .task-list p {
-          font-family: 'Lora';
-        }
-        .task-card {
-            background: white;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            text-align: center;
-            font-family: 'Poppins';
-            border-style: solid;
-            border-color: #111;
-            border-width: 3px;
-        }
-        .task-header {
-            background: #b71c1c;
-            color: white;
-            padding: 10px;
-            font-weight: bold;
-        }
-        .task-content {
-            padding: 15px;
-            text-align: left;
-        }
-        .task-footer {
-            background: #b71c1c;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="navbar">
-        <span class="menu-btn" onclick="openSidebar()" style="font-size: 30px; color: black">☰</span>
-        <img src="/images/full_logo_black.png" width="267" height="61">
-        <img src="/images/profile.png" width="35" height="35">
-    </div>
-    
-    <div class="sidebar" id="sidebar">
-        <span class="close-btn" onclick="closeSidebar()">&times;</span>
-        <a href="/volunteer/dashboard">Dashboard</a>
-        <a href="/volunteer/task">My Tasks</a>
-        <a href="/logout">Logout</a>
-    </div>
-    <div class="container mt-5">
-      <h1 class="text-center mb-4"><%= task.title %></h1>
-      <div class="card shadow">
-        <div class="card-body">
-          <p><strong>Location:</strong> <%= task.location %></p>
-          <p><strong>Description:</strong> <%= task.description %></p>
-          <p>
-            <strong>From:</strong> <%= new Date(task.fromTime).toLocaleString()
-            %>
-          </p>
-          <p>
-            <strong>To:</strong> <%= new Date(task.toTime).toLocaleString() %>
-          </p>
-          <p><strong>Size:</strong> <%= task.size %> volunteers</p>
-          <p><strong>Organization:</strong> <%= task.organization.name %></p>
-          <p><strong>Contact:</strong> <%= task.organization.emailId %></p>
-          <button class="btn btn-primary mt-3" onclick="registerTask('<%= task.id %>')">Register for Task</button>
-    <script>
-      function registerTask(taskId) {
-        fetch(`/volunteer/task/${taskId}/register`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => {
-            if (response.ok) {
-              alert('Successfully registered for the task!');
-              window.location.href = '/volunteer/dashboard';
-            } else {
-              alert('Failed to register for the task.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while registering for the task.');
-          });
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #f8f9fa;
       }
-      function openSidebar() {
-            document.getElementById("sidebar").style.left = "0";
-        }
-        function closeSidebar() {
-            document.getElementById("sidebar").style.left = "-250px";
-        }
-        
-    </script>
-</body>
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fb2f2f;
+        padding: 20px;
+        color: white;
+      }
+      .menu-btn,
+      .profile-btn {
+        cursor: pointer;
+      }
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #b71c1c;
+        margin-bottom: 20px;
+      }
+      .task-details {
+        font-size: 16px;
+        line-height: 1.8;
+      }
+      .task-details p {
+        margin: 10px 0;
+      }
+      .task-details strong {
+        color: #333;
+      }
+      .btn-register {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        width: fit-content;
+      }
+      .btn-register:hover {
+        background-color: #218838;
+      }
+      .btn-back {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #b71c1c;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        width: fit-content;
+      }
+      .btn-back:hover {
+        background-color: #a61b1b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <span
+        class="menu-btn"
+        onclick="openSidebar()"
+        style="font-size: 30px; color: black"
+        >☰</span
+      >
+      <img src="/images/full_logo_black.png" width="267" height="61" />
+      <img src="/images/profile.png" width="35" height="35" />
+    </div>
+
+    <div class="container">
+      <h1>Task Details</h1>
+      <div class="task-details">
+        <p><strong>Title:</strong> <%= task.title %></p>
+        <p><strong>Description:</strong> <%= task.description %></p>
+        <p><strong>Location:</strong> <%= task.location %></p>
+        <p>
+          <strong>Start Time:</strong> <%= new
+          Date(task.fromTime).toLocaleString() %>
+        </p>
+        <p>
+          <strong>End Time:</strong> <%= new Date(task.toTime).toLocaleString()
+          %>
+        </p>
+        <p><strong>Volunteers Needed:</strong> <%= task.size %></p>
+        <p><strong>Organization:</strong> <%= task.organization.name %></p>
+      </div>
+      <a href="/volunteer/task/<%= task.id %>/register" class="btn-register"
+        >Register for Task</a
+      >
+      <a href="/volunteer/dashboard" class="btn-back">← Back to Dashboard</a>
+    </div>
+  </body>
 </html>
