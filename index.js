@@ -359,17 +359,17 @@ app.post("/volunteer/task/:taskId/register", isVolunteer, async (req, res) => {
   try {
     // Fetch the task
     const task = await prisma.task.findUnique({
-      where: { id: parseInt(taskId, 10) },
+      where: { id: parseInt(taskId, 10) },include: { volunteers: true }
     });
 
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
     }
-
-    if (task.size <= 0) {
+    console.log(task);
+    if (task.size <= 0 || (task.volunteers && task.volunteers.some((volunteer) => volunteer.id === req.volunteerId))) {
       return res
         .status(400)
-        .json({ error: "No slots available for this task" });
+        .json({ error: "Cannot register in task" });
     }
 
     // Register the volunteer to the task
