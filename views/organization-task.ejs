@@ -119,6 +119,7 @@
     
     <div class="task-list" id="task-list">
       <% tasks.forEach(task => { %>
+    
           <% if (new Date(task.fromTime) > new Date() && task.size > 0) { %>
               <div class="task-card" data-title="<%= task.title.toLowerCase() %>">
                   <div class="task-header">TASK TITLE</div>

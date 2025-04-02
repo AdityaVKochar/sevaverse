@@ -57,7 +57,7 @@ app.get("/", async (req, res) => {
 
 app.get("/logout", async (req, res) => {
   res.clearCookie("authToken");
-  res.redirect('/')
+  res.redirect("/");
 });
 
 app.get("/organization/signin", async (req, res) => {
@@ -75,7 +75,7 @@ app.get("/organization/task", isOrganization, async (req, res) => {
         orgId: req.organizationId,
       },
     });
-
+    console.log(tasks);
     res.render("organization-task", { tasks });
   } catch (error) {
     console.error(error);
@@ -167,14 +167,13 @@ app.get("/volunteer/task/:id", async (req, res) => {
   }
 });
 
-app.get('/volunteer/task', isVolunteer, async (req, res) => {
+app.get("/volunteer/task", isVolunteer, async (req, res) => {
   const user = await prisma.volunteer.findFirst({
     where: { id: parseInt(req.volunteerId, 10) },
-    include: {tasks: true}
-
+    include: { tasks: true },
   });
 
-  res.render('volunteer-tasks', {tasks: user.tasks});
+  res.render("volunteer-tasks", { tasks: user.tasks });
 });
 
 app.post("/organization/signup", async (req, res) => {
@@ -370,17 +369,20 @@ app.post("/volunteer/task/:taskId/register", isVolunteer, async (req, res) => {
   try {
     // Fetch the task
     const task = await prisma.task.findUnique({
-      where: { id: parseInt(taskId, 10) },include: { volunteers: true }
+      where: { id: parseInt(taskId, 10) },
+      include: { volunteers: true },
     });
 
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
     }
     console.log(task);
-    if (task.size <= 0 || (task.volunteers && task.volunteers.some((volunteer) => volunteer.id === req.volunteerId))) {
-      return res
-        .status(400)
-        .json({ error: "Cannot register in task" });
+    if (
+      task.size <= 0 ||
+      (task.volunteers &&
+        task.volunteers.some((volunteer) => volunteer.id === req.volunteerId))
+    ) {
+      return res.status(400).json({ error: "Cannot register in task" });
     }
 
     // Register the volunteer to the task
@@ -477,7 +479,7 @@ app.get("/volunteer/:volunteerId", async (req, res) => {
 
   if (!volunteer) res.status(500).json({ error: "no such user" });
 
-    res.render('volunteer', {volunteer})
+  res.render("volunteer", { volunteer });
 });
 
 app.get("/organization/:organizationId", async (req, res) => {
