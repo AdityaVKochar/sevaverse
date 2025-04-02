@@ -88,15 +88,23 @@
             required
           ></textarea>
         </div>
-
         <div class="form-group">
-          <label for="fromTime">Start Time:</label>
-          <input type="datetime-local" id="fromTime" name="fromTime" required />
+          <input
+            type="date"
+            name="fromDate"
+            placeholder="DD/MM/YYYY"
+            required
+          />
+          <input type="date" name="toDate" placeholder="DD/MM/YYYY" required />
         </div>
-
         <div class="form-group">
-          <label for="toTime">End Time:</label>
-          <input type="datetime-local" id="toTime" name="toTime" required />
+          <input
+            type="time"
+            name="fromTime"
+            placeholder="HH/MM/SSSS"
+            required
+          />
+          <input type="time" name="toTime" placeholder="HH/MM/SSSS" required />
         </div>
         <div class="form-group">
           <input
