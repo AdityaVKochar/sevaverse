@@ -468,8 +468,8 @@ app.get("/volunteer/task", isVolunteer, async (req, res) => {
   }
 });
 
-app.get("/volunteer/:volunteerId", async (req, res) => {
-  const id = req.params.volunteerId;
+app.get("/volunteer/", isVolunteer, async (req, res) => {
+  const id = req.volunteerId;
 
   const volunteer = await prisma.volunteer.findUnique({
     where: {
@@ -482,8 +482,8 @@ app.get("/volunteer/:volunteerId", async (req, res) => {
   res.render("volunteer", { volunteer });
 });
 
-app.get("/organization/:organizationId", async (req, res) => {
-  const id = req.params.organizationId;
+app.get("/organization", isOrganization, async (req, res) => {
+  const id = req.organizationId;
 
   const organization = await prisma.organization.findUnique({
     where: {
