@@ -125,48 +125,6 @@
     </div>
 
     <div class="container">
-      <img src="/images/ngoinfo.png" alt="NGO Logo" class="ngo-logo" />
-
-      <div class="info-section">
-        <h1 class="info-title">NGO INFORMATION</h1>
-
-        <div class="form-group">
-          <div class="form-field">
-            <label class="form-label">Organization Name</label>
-            <p>
-              <%= typeof organization !== 'undefined' ? organization.name :
-              'Organization Name' %>
-            </p>
-          </div>
-          <div class="form-field">
-            <label class="form-label">Organization ID</label>
-            <p>
-              <%= typeof organization !== 'undefined' ? organization.id :
-              'Organization ID' %>
-            </p>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="form-field">
-            <label class="form-label">Mobile Number</label>
-            <p>
-              <%= typeof organization !== 'undefined' ? organization.mobileNo :
-              'Mobile Number' %>
-            </p>
-          </div>
-          <div class="form-field">
-            <label class="form-label">Email ID</label>
-            <p>
-              <%= typeof organization !== 'undefined' ? organization.emailId :
-              'Email ID' %>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
       <h1 class="info-title">Your Tasks</h1>
       <div class="text-end mb-4">
         <a href="/organization/task/create" class="btn btn-success"
