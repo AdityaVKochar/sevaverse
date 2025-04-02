@@ -1,18 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Details</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <title>Navbar with Sidebar and Search</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fb2f2f;
+            padding: 20px;
+            color: white;
+        }
+        .menu-btn, .profile-btn {
+            cursor: pointer;
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            background-color: #111;
+            padding-top: 60px;
+            transition: 0.3s;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 25px;
+            cursor: pointer;
+            color: white;
+        }
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-bar {
+            padding: 10px;
+            width: 700px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .task-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .task-list p {
+          font-family: 'Lora';
+        }
+        .task-card {
+            background: white;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            font-family: 'Poppins';
+            border-style: solid;
+            border-color: #111;
+            border-width: 3px;
+        }
+        .task-header {
+            background: #b71c1c;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .task-content {
+            padding: 15px;
+            text-align: left;
+        }
+        .task-footer {
+            background: #b71c1c;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="menu-btn" onclick="openSidebar()" style="font-size: 30px; color: black">☰</span>
+        <img src="/images/full_logo_black.png" width="267" height="61">
+        <img src="/images/profile.png" width="35" height="35">
+    </div>
     
-    <link rel="stylesheet" href="/styles/main.css" />
-  </head>
-  <body>
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="closeSidebar()">&times;</span>
+        <a href="/volunteer/dashboard">Dashboard</a>
+        <a href="/volunteer/task">My Tasks</a>
+        <a href="/logout">Logout</a>
+    </div>
     <div class="container mt-5">
       <h1 class="text-center mb-4"><%= task.title %></h1>
       <div class="card shadow">
@@ -51,15 +150,13 @@
             alert('An error occurred while registering for the task.');
           });
       }
+      function openSidebar() {
+            document.getElementById("sidebar").style.left = "0";
+        }
+        function closeSidebar() {
+            document.getElementById("sidebar").style.left = "-250px";
+        }
+        
     </script>
-          <a href="/volunteer/dashboard" class="btn btn-secondary"
-            >Back to Dashboard</a
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+</body>
 </html>
