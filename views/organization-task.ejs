@@ -104,6 +104,11 @@
         text-align: center;
         cursor: pointer;
       }
+      .tocenter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
@@ -154,10 +159,12 @@
           <% } %>
       <% }) %>
   </div> -->
-    <h2>Current Tasks</h2>
+    <div class="tocenter">
+      <h2>Current Tasks</h2>
+    </div>
     <div class="task-list" id="task-list">
-      <% tasks.forEach(task => { %> <% if (new Date(task.toTime) > new Date()
-      && task.size > 0) { %>
+      <% tasks.forEach(task => { %> <% if (new Date(task.toTime) > new Date() &&
+      task.size > 0) { %>
       <div class="task-card" data-title="<%= task.title.toLowerCase() %>">
         <div class="task-header"><strong><%= task.title%></strong></div>
         <div class="task-content">
@@ -180,7 +187,9 @@
       <% } %> <% }) %>
     </div>
 
-    <h2>Previous Tasks</h2>
+    <div class="tocenter">
+      <h2>Previous Tasks</h2>
+    </div>
     <div class="task-list" id="task-list">
       <% tasks.forEach(task => { %> <% if (new Date(task.toTime) <= new Date()
       && task.size > 0) { %>
