@@ -55,8 +55,9 @@ app.get("/", async (req, res) => {
   res.render("landingpage.ejs");
 });
 
-app.post("/logout", async (req, res) => {
+app.get("/logout", async (req, res) => {
   res.clearCookie("authToken");
+  res.redirect('/')
 });
 
 app.get("/organization/signin", async (req, res) => {
