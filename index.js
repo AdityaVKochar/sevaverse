@@ -166,6 +166,16 @@ app.get("/volunteer/task/:id", async (req, res) => {
   }
 });
 
+app.get('/volunteer/task', isVolunteer, async (req, res) => {
+  const user = await prisma.volunteer.findFirst({
+    where: { id: parseInt(req.volunteerId, 10) },
+    include: {tasks: true}
+
+  });
+
+  res.render('volunteer-tasks', {tasks: user.tasks});
+});
+
 app.post("/organization/signup", async (req, res) => {
   const { name, mobileNo, emailId, password } = req.body;
 
